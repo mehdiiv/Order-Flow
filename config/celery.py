@@ -9,3 +9,10 @@ app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 app.autodiscover_tasks()
+
+app.conf.beat_schedule = {
+    'check-pending-orders-every-10-seconds': {
+        'task': 'orders.tasks.check_pending_orders',
+        'schedule': 10.0,
+    },
+}
